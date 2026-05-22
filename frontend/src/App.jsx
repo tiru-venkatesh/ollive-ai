@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, createContext, useContext } from 'react';
 
-const API = 'http://localhost:3001/api';
+const API = 'https://ollive-ai.onrender.com/api';
 
 const STYLES = `
 @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500;600&family=Geist:wght@300;400;500;600;700&display=swap');
