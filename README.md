@@ -275,6 +275,9 @@ Dashboard reflects new data on next fetch
 ### Chat UI
 ![Chat UI](./screenshots/chat-ui.png)
 
+### Chat SECTION
+![Chat UI](./screenshots/chat.png)
+
 ### Logs Dashboard
 ![Dashboard](./screenshots/dashboard.png)
 
