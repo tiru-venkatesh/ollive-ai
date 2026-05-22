@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './db/connect.js';
 import chatRoutes from './routes/chat.js';
