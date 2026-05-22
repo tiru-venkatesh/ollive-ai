@@ -285,11 +285,7 @@ Dashboard reflects new data on next fetch
 ![Conversations](./screenshots/conversations.png)
 
 ---
-
-## Demo
-
-> *(Add Loom link or hosted URL here)*
-
+**Live App:** https://ollive-ai.vercel.app
 ---
 
 ## License
