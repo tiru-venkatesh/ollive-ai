@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, createContext, useContext } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 const API = 'https://ollive-ai.onrender.com/api';
 
@@ -222,7 +223,7 @@ body { font-family: var(--sans); color: var(--text); overflow: hidden; }
 .bubble {
   padding: 12px 16px;
   border-radius: var(--r2); font-size: 14px; line-height: 1.75;
-  white-space: pre-wrap; word-break: break-word;
+  word-break: break-word;
   border: 1px solid var(--border);
 }
 .bubble.bot {
@@ -233,11 +234,56 @@ body { font-family: var(--sans); color: var(--text); overflow: hidden; }
 .bubble.user {
   background: var(--surface3);
   border-radius: var(--r2) 4px var(--r2) var(--r2);
+  white-space: pre-wrap;
 }
 .bubble.streaming::after {
   content: '▋'; color: var(--olive);
   animation: blink .7s infinite; margin-left: 1px;
 }
+
+/* ── MARKDOWN STYLES ── */
+.bubble h1, .bubble h2, .bubble h3 {
+  color: var(--text); font-family: var(--sans);
+  margin: 12px 0 6px; line-height: 1.3;
+}
+.bubble h1 { font-size: 17px; font-weight: 700; }
+.bubble h2 { font-size: 15px; font-weight: 600; }
+.bubble h3 { font-size: 14px; font-weight: 600; color: var(--olive); }
+.bubble strong { color: var(--text); font-weight: 600; }
+.bubble em { color: var(--text2); font-style: italic; }
+.bubble p { margin-bottom: 8px; line-height: 1.75; }
+.bubble p:last-child { margin-bottom: 0; }
+.bubble ul, .bubble ol { padding-left: 20px; margin: 6px 0 10px; }
+.bubble li { margin-bottom: 5px; line-height: 1.65; color: var(--text); }
+.bubble li::marker { color: var(--olive); }
+.bubble code {
+  background: var(--surface3); padding: 2px 6px;
+  border-radius: 4px; font-family: var(--mono);
+  font-size: 12px; color: var(--olive);
+  border: 1px solid var(--border2);
+}
+.bubble pre {
+  background: var(--surface3); padding: 14px 16px;
+  border-radius: var(--r); overflow-x: auto;
+  margin: 10px 0; border: 1px solid var(--border2);
+}
+.bubble pre code {
+  background: none; padding: 0; border: none;
+  font-size: 12px; color: var(--text2);
+}
+.bubble blockquote {
+  border-left: 2px solid var(--olive3);
+  padding: 4px 12px; margin: 8px 0;
+  color: var(--text2); font-style: italic;
+}
+.bubble hr {
+  border: none; border-top: 1px solid var(--border);
+  margin: 12px 0;
+}
+.bubble a { color: var(--olive); text-decoration: underline; }
+.bubble table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+.bubble th { padding: 6px 10px; background: var(--surface3); color: var(--text); font-weight: 600; border: 1px solid var(--border2); }
+.bubble td { padding: 6px 10px; border: 1px solid var(--border); color: var(--text2); }
 
 .meta-row {
   display: flex; gap: 8px; align-items: center;
@@ -446,14 +492,14 @@ table.log tr:hover td { background: var(--olive4); color: var(--text); }
 }
 `;
 
-/* 
+/* ══════════════════════════════════
    CONTEXT
- */
+══════════════════════════════════ */
 const Ctx = createContext({});
 
-/* 
-   ICONS (inline SVG – no external dep)
- */
+/* ══════════════════════════════════
+   ICONS  (inline SVG – no external dep)
+══════════════════════════════════ */
 const Icon = ({ name, size = 16, ...rest }) => {
   const paths = {
     chat:    <><path d="M8 2H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2l-4 3v-3H4a2 2 0 0 1-2-2V8"/><path d="M2 2h9"/></>,
@@ -477,9 +523,9 @@ const Icon = ({ name, size = 16, ...rest }) => {
   );
 };
 
-/* 
+/* ══════════════════════════════════
    UTILS
- */
+══════════════════════════════════ */
 const uid   = () => Math.random().toString(36).slice(2, 10);
 const fmtT  = d  => new Date(d).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 const fmtD  = d  => new Date(d).toLocaleDateString([], { month: 'short', day: 'numeric' });
@@ -512,11 +558,11 @@ const DEMO_CONVS = [
   { _id: uid(), sessionId: 'sess_i9j0k1l2', title: 'Token budgeting strategies', updatedAt: new Date(Date.now()-8.64e7), messageCount: 5 },
 ];
 
-/* 
+/* ══════════════════════════════════
    CHAT
- */
+══════════════════════════════════ */
 function Chat() {
-  const { sessionId, convs, setConvs } = useContext(Ctx);
+  const { sessionId } = useContext(Ctx);
   const [msgs, setMsgs] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -616,7 +662,12 @@ function Chat() {
             </div>
             <div className="msg-body">
               <div className="msg-name">{m.role === 'user' ? 'you' : 'ollive'}</div>
-              <div className={`bubble ${m.role === 'user' ? 'user' : 'bot'}`}>{m.content}</div>
+              <div className={`bubble ${m.role === 'user' ? 'user' : 'bot'}`}>
+                {m.role === 'assistant'
+                  ? <ReactMarkdown>{m.content}</ReactMarkdown>
+                  : m.content
+                }
+              </div>
               <div className="meta-row">{fmtT(m.ts)}</div>
             </div>
           </div>
@@ -627,7 +678,9 @@ function Chat() {
             <div className="avatar bot">🫒</div>
             <div className="msg-body">
               <div className="msg-name">ollive</div>
-              <div className="bubble bot streaming">{stream}</div>
+              <div className="bubble bot streaming">
+                <ReactMarkdown>{stream}</ReactMarkdown>
+              </div>
             </div>
           </div>
         )}
@@ -674,9 +727,9 @@ function Chat() {
   );
 }
 
-/* 
+/* ══════════════════════════════════
    CONVERSATIONS
- */
+══════════════════════════════════ */
 function Conversations() {
   const { setView, setSessionId } = useContext(Ctx);
   const [convs, setConvs] = useState([]);
@@ -731,9 +784,9 @@ function Conversations() {
   );
 }
 
-/* 
+/* ══════════════════════════════════
    DASHBOARD
- */
+══════════════════════════════════ */
 function Dashboard() {
   const [logs, setLogs] = useState([]);
   const [busy, setBusy] = useState(true);
@@ -845,9 +898,9 @@ function Dashboard() {
   );
 }
 
-/* 
+/* ══════════════════════════════════
    ROOT APP
- */
+══════════════════════════════════ */
 export default function App() {
   const [view, setView] = useState('chat');
   const [sessionId, setSessionId] = useState(() => `sess_${uid()}`);
