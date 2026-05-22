@@ -5,18 +5,6 @@
 ![Node.js](https://img.shields.io/badge/Node.js-22.x-green) ![React](https://img.shields.io/badge/React-18-blue) ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen) ![Groq](https://img.shields.io/badge/LLM-Groq%20Llama%203.1-orange)
 
 ---
-## Screenshots
-
-### Chat UI
-![Chat UI](./screenshots/chat-ui.png)
-
-### Logs Dashboard
-![Dashboard](./screenshots/dashboard.png)
-
-### Conversations
-![Conversations](./screenshots/conversations.png)
-
----
 ## Overview
 
 Ollive Inference Logger is a full-stack AI observability platform that wraps LLM API calls with a lightweight logging middleware, streams responses to users in real time, and persists structured inference metadata to MongoDB. A live dashboard surfaces latency, token usage, error rates, and conversation history — giving operators full visibility into every inference event.
@@ -98,8 +86,8 @@ ollive-inference-logger/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ollive-inference-logger.git
-cd ollive-inference-logger
+git clone https://github.com/tiru-venkatesh/ollive-ai.git
+cd ollive-ai
 ```
 
 ### 2. Configure environment variables
@@ -280,11 +268,18 @@ Dashboard reflects new data on next fetch
 - **Alerting** — webhook alerts when error rate or P95 latency exceeds threshold
 - **Log export** — CSV/JSON download from the dashboard
 
----
 
+---
 ## Screenshots
 
-> *(Add screenshots here of: Chat UI, Logs Dashboard, Conversations List)*
+### Chat UI
+![Chat UI](./screenshots/chat-ui.png)
+
+### Logs Dashboard
+![Dashboard](./screenshots/dashboard.png)
+
+### Conversations
+![Conversations](./screenshots/conversations.png)
 
 ---
 
