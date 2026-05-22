@@ -5,7 +5,18 @@
 ![Node.js](https://img.shields.io/badge/Node.js-22.x-green) ![React](https://img.shields.io/badge/React-18-blue) ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen) ![Groq](https://img.shields.io/badge/LLM-Groq%20Llama%203.1-orange)
 
 ---
+## Screenshots
 
+### Chat UI
+![Chat UI](./screenshots/chat-ui.png)
+
+### Logs Dashboard
+![Dashboard](./screenshots/dashboard.png)
+
+### Conversations
+![Conversations](./screenshots/conversations.png)
+
+---
 ## Overview
 
 Ollive Inference Logger is a full-stack AI observability platform that wraps LLM API calls with a lightweight logging middleware, streams responses to users in real time, and persists structured inference metadata to MongoDB. A live dashboard surfaces latency, token usage, error rates, and conversation history — giving operators full visibility into every inference event.
